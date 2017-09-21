@@ -79,9 +79,12 @@ app.get('/', (req, res, next) => {
 
 // Route for the homepage
 app.get(I18NUrl('/'), (req, res, next) => {
-  req.prismic.api.getSingle("homepage", I18NConfig(req))
-  .then((home) => {
-    res.render('homepage', { home });
+  Promise.all([
+    req.prismic.api.getSingle("homepage", I18NConfig(req)),
+    req.prismic.api.query(Prismic.Predicates.at("document.type", "page"), I18NConfig(req))
+  ])
+  .then(([home, pagesResult]) => {
+    res.render('homepage', { home, articles: pagesResult.results });
   })
   .catch((error) => {
     next(`error when retriving homepage ${error.message}`);

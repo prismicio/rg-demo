@@ -18,25 +18,14 @@ block body
           a.banner-button(href=Link.url(home.data.buttonLink, ctx.linkResolver)) !{home.data.buttonText}
 
     -// Content Section
-    div.grid-container
+    div.articles.grid-container
 
-      -// Display the slices
-      for slice in home.data.body
-        case slice.slice_type
-          when 'highlight_section'
-            include ./slices/highlight-section.pug
-          when 'banner'
-            include ./slices/banner.pug
-          when 'banner_look'
-            include ./slices/quote-banner.pug
-          when 'editorial_look'
-            include ./slices/featured-section.pug
-          when 'text_section'
-            include ./slices/text-section.pug
-          when 'image_slider'
-            include ./slices/image-slider.pug 
-          when 'gallery'
-            include ./slices/gallery.pug
-          when 'video'
-            include ./slices/video.pug
-
+      for article in articles
+        .article
+          - var illuStyle = "background-image:url(" + article.data.miniature.url + ")";
+          .illustration(style=illuStyle)
+          .content
+            h3
+              != RichText.asText(article.data.titre)
+            p
+              != article.data.resume
