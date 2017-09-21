@@ -1,0 +1,11 @@
+- var backgroundStyle = "background-image: url('" + slice.primary.background_image.url + "')"
+- var classList = [slice.primary.quote_position, slice.primary.quote_style].join(' ')
+
+.quote-banner.grid-container(style=backgroundStyle class=classList)
+  
+  .grid-container.container-text
+    .quote-container.grid-container
+      .quote
+        != RichText.asHtml(slice.primary.quote, ctx.linkResolver)
+      .author
+        != RichText.asHtml(slice.primary.quote_author, ctx.linkResolver)
